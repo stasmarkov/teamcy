@@ -50,7 +50,7 @@
       <div class="mt-16">
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
           <span class="text-white">
-          {{ \App\Models\User::all()->count()  }}
+            <livewire:department-form />
           </span>
         </div>
       </div>

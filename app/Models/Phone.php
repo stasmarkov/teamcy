@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace App\Models;
 
 use App\Models\Scopes\TenantScope;
@@ -7,11 +9,9 @@ use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-#[ScopedBy([TenantScope::class])]
-class Department extends Model {
+#[ScopedBy(TenantScope::class)]
+class Phone extends Model {
   use HasFactory;
-
-  protected $guarded = [];
 
   /**
    * {@inheritdoc}
@@ -24,5 +24,4 @@ class Department extends Model {
       }
     });
   }
-
 }

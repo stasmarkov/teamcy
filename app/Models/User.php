@@ -46,13 +46,18 @@ class User extends Authenticatable {
       'password' => 'hashed',
     ];
   }
-//
-//  /**
-//   * The "booted" method of the model.
-//   */
-//  protected static function booted(): void
-//  {
-//    static::addGlobalScope(new TenantScope());
-//  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected static function boot() {
+    parent::boot();
+
+    static::creating(function (self $model) {
+      if (session()->has('tenant_id')) {
+        $model->tenant_id = session()->get('tenant_id');
+      }
+    });
+  }
 
 }
