@@ -3,15 +3,15 @@
 namespace App\Models;
 
 use App\Models\Scopes\TenantScope;
+use App\Traits\BelongsToTanet;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[ScopedBy([TenantScope::class])]
 class User extends Authenticatable {
 
-  use HasFactory, Notifiable;
+  use HasFactory, Notifiable, BelongsToTanet;
 
   /**
    * The attributes that are mass assignable.
@@ -22,6 +22,7 @@ class User extends Authenticatable {
     'name',
     'email',
     'password',
+    'role',
     'tenant_id',
   ];
 
@@ -45,19 +46,6 @@ class User extends Authenticatable {
       'email_verified_at' => 'datetime',
       'password' => 'hashed',
     ];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected static function boot() {
-    parent::boot();
-
-    static::creating(function (self $model) {
-      if (session()->has('tenant_id')) {
-        $model->tenant_id = session()->get('tenant_id');
-      }
-    });
   }
 
 }

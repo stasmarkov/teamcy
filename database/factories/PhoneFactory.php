@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Database\Factories;
 
+use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,7 +19,7 @@ class PhoneFactory extends Factory {
    */
   public function definition(): array {
     return [
-      'tenant_id' => factory(App\Models\Tenant::class),
+      'tenant_id' => Tenant::factory(),
     ];
   }
 

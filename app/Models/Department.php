@@ -18,6 +18,7 @@ class Department extends Model {
    */
   protected static function boot() {
     parent::boot();
+
     static::creating(function (self $model) {
       if (session()->has('tenant_id')) {
         $model->tenant_id = session()->get('tenant_id');

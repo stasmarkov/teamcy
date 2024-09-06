@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Auth;
 
+use App\Models\Tenant;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -9,43 +10,53 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use Livewire\Component;
 
-class Register extends Component
-{
-    /** @var string */
-    public $name = '';
+class Register extends Component {
 
-    /** @var string */
-    public $email = '';
+  /** @var string */
+  public $name = '';
 
-    /** @var string */
-    public $password = '';
+  /** @var string */
+  public $email = '';
 
-    /** @var string */
-    public $passwordConfirmation = '';
+  /** @var string */
+  public $password = '';
 
-    public function register()
-    {
-        $this->validate([
-            'name' => ['required'],
-            'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required', 'min:8', 'same:passwordConfirmation'],
-        ]);
+  /** @var string */
+  public $companyName = '';
 
-        $user = User::create([
-            'email' => $this->email,
-            'name' => $this->name,
-            'password' => Hash::make($this->password),
-        ]);
+  public function register() {
+    $this->validate([
+      'name' => ['required', 'min:3'],
+      'companyName' => ['required', 'string', 'unique:tenants,name', 'min:3'],
+      'email' => ['required', 'email', 'unique:users'],
+      'password' => ['required', 'min:8'],
+    ]);
 
-        event(new Registered($user));
+    $tenant = Tenant::create([
+      'name' => $this->companyName,
+    ]);
 
-        Auth::login($user, true);
+    $user = User::create([
+      'email' => $this->email,
+      'name' => $this->name,
+      'password' => Hash::make($this->password),
+      'role' => 'admin',
+      'tenant_id' => $tenant->id,
+    ]);
 
-        return redirect()->intended(route('home'));
-    }
+    event(new Registered($user));
 
-    public function render()
-    {
-        return view('livewire.auth.register')->extends('layouts.auth');
-    }
+    Auth::login($user, TRUE);
+
+    return redirect()->intended(route('home'));
+  }
+
+  public function updated($field) {
+    $this->resetErrorBag($field);
+  }
+
+  public function render() {
+    return view('livewire.auth.register')->extends('layouts.auth');
+  }
+
 }
