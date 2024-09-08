@@ -26,6 +26,8 @@ class AddUser extends Component {
 
   public $role = 'admin';
 
+  public $application;
+
   public function submit() {
     $this->validate([
       'name' => 'required|string',
@@ -35,22 +37,41 @@ class AddUser extends Component {
       'status' => 'required|boolean',
       'role' => 'required|string',
       'photo' => 'image|max:10000',
+      'application' => 'file|mimes:pdf|max:10000',
     ]);
 
-    $filename = $this->photo->store('photos', 's3');
+    $photo = $this->photo->store('photos', 's3');
 
-    User::create([
+    $user = User::create([
       'name' => $this->name,
       'email' => $this->email,
       'department' => $this->department,
       'title' => $this->title,
       'status' => $this->status,
       'role' => $this->role,
-      'photo' => $filename,
+      'photo' => $photo,
       'password' => Str::random(16),
     ]);
 
+    // Get file name.
+    $filename = pathinfo($this->application->getClientOriginalName(), PATHINFO_FILENAME) . '_' . now()->timestamp . '.' . $this->application->getClientOriginalExtension();
+    $directory_name = '/documents/' . $user->id . '/';
+
+    // Store on s3.
+    $document = $this->application->storeAs($directory_name, $filename, 's3-private');
+
+    // Create document in db.
+    $user->documents()->create([
+      'type' => 'application',
+      'filename' => $filename,
+      'extension' => $this->application->getClientOriginalExtension(),
+      'size' => $this->application->getSize(),
+    ]);
+
+
     session()->flash('success', 'User sucecssfully created!');
+
+    return redirect()->route('team.index');
   }
 
   /**

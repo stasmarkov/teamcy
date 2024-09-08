@@ -56,11 +56,24 @@
           <div>
             <input type="file" wire:model="photo">
             @error('photo')
-              <span class="error">{{ $message  }}</span>
+              <span class="error">{{ $message }}</span>
             @enderror
             <div wire:loading wire:target="photo">Uploading...</div>
           </div>
         </div>
+      </div>
+
+      <div class="col-span-6 sm:col-span-3">
+        <label for="applicatiom" class="block text-sm font-medium leading-5 text-gray-700">Application</label>
+        <input
+          wire:model="application"
+          type="file"
+          id="application"
+          class="mt-1 block form-select w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+        @error('application')
+        <span class="error">{{ $message }}</span>
+        @enderror
+        <div wire:loading wire:target="application">Uploading...</div>
       </div>
 
       <div class="col-span-6 sm:col-span-3">

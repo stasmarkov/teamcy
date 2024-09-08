@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Livewire\Auth;
+namespace App\Livewire\Auth;
 
 use App\Models\Tenant;
 use App\Models\User;

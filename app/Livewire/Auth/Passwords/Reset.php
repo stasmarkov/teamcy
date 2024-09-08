@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Livewire\Auth\Passwords;
+namespace App\Livewire\Auth\Passwords;
 
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\PasswordReset;
