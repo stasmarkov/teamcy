@@ -62,7 +62,7 @@ class ShowUsers extends Component {
   }
 
   public function impersonate(int $uid) {
-    if (!is_null(Auth::user()->tenant_id)) {
+    if (!is_null(Auth::user()->tenant_id) || strtolower(Auth::user()->role) !== 'admin') {
       return;
     }
     if ($uid !== (int) Auth::user()->id) {
@@ -70,7 +70,7 @@ class ShowUsers extends Component {
       Auth::loginUsingId($uid);
     }
 
-    return redirect()->route('team.index');
+    return redirect()->back();
   }
 
 }

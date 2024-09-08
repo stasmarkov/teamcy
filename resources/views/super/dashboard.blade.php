@@ -4,7 +4,7 @@
 
 @section('content')
   <!-- Replace with your content -->
-  <div class="py-4">
+  <div class="py-4 space-y-4">
     <div>
       <div class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         <div class="bg-white overflow-hidden shadow rounded-lg">
@@ -106,7 +106,7 @@
         </div>
       </div>
     </div>
+
+    <x-login-chart :chart="$chart" />
   </div>
-
-
 @endsection

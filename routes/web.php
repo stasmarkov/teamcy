@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function() {
     ->name('password.confirm');
 });
 
+
 Route::middleware('auth')->group(function() {
   Route::view('/team', 'team')->name('team.index');
   Route::view('/team/add-user', 'users.create')->name('users.create');
@@ -68,17 +69,19 @@ Route::middleware('auth')->group(function() {
       session()->forget('impersonate');
     }
 
-    return redirect()->route('team.index');
+    return redirect()->back();
   })->name('leave-impersonation');
 });
 
 Route::get('/load-logins', function() {
-  $users = User::withoutGlobalScopes()->whereNotNull('tenant_id')->get();
+  $users = \App\Models\User::withoutGlobalScopes()->whereNotNull('tenant_id')->get();
   foreach($users as $user) {
-    \App\Models\Login::factor(1)->create([
+    \App\Models\Login::factory(1)->create([
       'user_id' => $user->id,
       'tenant_id' => $user->tenant_id,
       'created_at' => now(),
     ]);
   }
+
+  return 'Hello';
 });
