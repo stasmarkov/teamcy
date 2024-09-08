@@ -6,7 +6,7 @@ use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class SetTenantIdInSession {
+class RecordLogin {
 
   /**
    * Create the event listener.
@@ -17,8 +17,13 @@ class SetTenantIdInSession {
   /**
    * Handle the event.
    */
-  public function handle(Login $event): void {
-    session()->put('tenant_id', $event->user->tenant_id ?? NULL);
+  public function handle($event) {
+    if ($event->user->tenant_id) {
+      Login::create([
+        'user_id' => $event->user->id,
+        'tenant_id' => $event->user->tenant_id,
+      ]);
+    }
   }
 
   /**

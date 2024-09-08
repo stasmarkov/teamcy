@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Models;
 
@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Document extends Model {
+
   use HasFactory, BelongsToTanet;
 
   protected $guarded = [];
@@ -22,6 +23,10 @@ class Document extends Model {
    */
   public function user() {
     return $this->belongsTo(User::class);
+  }
+
+  public function privateUrl() {
+    return url('/documents/' . $this->user_id . '/' . $this->filename);
   }
 
 }

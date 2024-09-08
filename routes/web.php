@@ -60,4 +60,25 @@ Route::middleware('auth')->group(function() {
     ->name('logout');
 
   Route::get('/documents/{user}/{filebane}', [DocumentController::class, 'show']);
+
+  Route::get('leave-impersonation', function() {
+    if (session()->has('impersonate')) {
+      $old_uid = session('impersonate');
+      \Illuminate\Support\Facades\Auth::login(\App\Models\User::withoutGlobalScopes()->find($old_uid));
+      session()->forget('impersonate');
+    }
+
+    return redirect()->route('team.index');
+  })->name('leave-impersonation');
+});
+
+Route::get('/load-logins', function() {
+  $users = User::withoutGlobalScopes()->whereNotNull('tenant_id')->get();
+  foreach($users as $user) {
+    \App\Models\Login::factor(1)->create([
+      'user_id' => $user->id,
+      'tenant_id' => $user->tenant_id,
+      'created_at' => now(),
+    ]);
+  }
 });

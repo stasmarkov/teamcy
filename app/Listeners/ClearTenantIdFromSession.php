@@ -1,24 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Listeners;
 
 use Illuminate\Auth\Events\Login;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Auth\Events\Logout;
 
-class SetTenantIdInSession {
-
-  /**
-   * Create the event listener.
-   */
-  public function __construct() {
-  }
+class ClearTenantIdFromSession {
 
   /**
    * Handle the event.
+   *
+   * @param object $event
+   *
+   * @return void
    */
-  public function handle(Login $event): void {
-    session()->put('tenant_id', $event->user->tenant_id ?? NULL);
+  public function handle(Logout $event) {
+    session()->forget('tenant_id');
   }
 
   /**
@@ -29,10 +28,9 @@ class SetTenantIdInSession {
    */
   public function subscribe(Dispatcher $events): void {
     $events->listen(
-      Login::class,
+      Logout::class,
       [__CLASS__, 'handle']
     );
   }
-
 
 }

@@ -29,8 +29,11 @@ class UserFactory extends Factory {
       'email_verified_at' => now(),
       'password' => 'password',
       'remember_token' => Str::random(10),
-      'role' => 'basic_user',
       'tenant_id' => Tenant::factory(),
+      'role' => 'Admin',
+      'status' => 1,
+      'department' => fake()->jobTitle(),
+      'photo' => NULL,
     ];
   }
 

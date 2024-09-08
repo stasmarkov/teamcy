@@ -21,13 +21,17 @@ class DocumentController extends Controller {
     // Find the document.
     $doc = $user->documents()->where('filename', $filename)->get()->first();
 
+    if (!$doc) {
+      abort(404);
+    }
+
     // Auth the user.
     if (!Auth::user()->isAdmin()) {
       abort(403);
     }
 
     // Stream file to the user.
-    if ($doc->extension === 'pdf') {
+    if ($doc?->extension === 'pdf') {
       return response(Storage::disk('s3-private')->get('/documents/' . $user->id . '/' . $filename))
         ->header('Content-Type', 'application/pdf');
     }
