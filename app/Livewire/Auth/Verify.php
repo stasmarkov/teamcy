@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Auth;
+namespace app\Livewire\Auth;
 
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Auth;

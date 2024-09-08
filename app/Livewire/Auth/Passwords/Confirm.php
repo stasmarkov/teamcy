@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Auth\Passwords;
+namespace app\Livewire\Auth\Passwords;
 
 use Livewire\Component;
 

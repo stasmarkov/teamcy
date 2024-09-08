@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Livewire\Auth\Passwords;
+namespace app\Livewire\Auth\Passwords;
 
-use Livewire\Component;
 use Illuminate\Support\Facades\Password;
+use Livewire\Component;
 
 class Email extends Component
 {

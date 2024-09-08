@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Livewire\Auth\Passwords;
+namespace app\Livewire\Auth\Passwords;
 
 use App\Providers\RouteServiceProvider;
-use Livewire\Component;
-use Illuminate\Support\Str;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Str;
+use Livewire\Component;
 
 class Reset extends Component
 {

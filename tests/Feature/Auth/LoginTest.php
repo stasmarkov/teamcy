@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Auth;
 
+use app\Livewire\Auth\Login;
 use App\Models\User;
-use App\Livewire\Auth\Login;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
